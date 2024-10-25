@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:quote_app/core/theme/app_theme.dart';
+import 'package:quote_app/feature/quote/view_model/qoute_provider.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final providerOfQuote = Provider.of<QuoteProvider>(context);
     return Scaffold(
       backgroundColor: AppTheme.greyColor100,
       appBar: AppBar(
@@ -50,14 +53,14 @@ class QuoteScreen extends StatelessWidget {
               );
             },
           ),
-          // Placeholder loading indicator, not active without Provider logic
+          if(providerOfQuote.isLoading)
           const Center(
             child: CircularProgressIndicator(),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {}, // No action initially
+        onPressed: () => providerOfQuote.fetchQuote(),
         tooltip: 'Load More',
         shape: const CircleBorder(),
         backgroundColor: AppTheme.blueColor100,
